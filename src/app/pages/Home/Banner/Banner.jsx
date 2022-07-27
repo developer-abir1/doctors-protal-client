@@ -12,7 +12,7 @@ const Banner = () => {
         <Box sx={{flexGrow:1}}  sx={{height:"500px" ,display:'flex' , justifyContent:'center' , alignItems:'center'}}>
             <Grid container spacing={2} sx={{}}>
                 <Grid item xs={12} sm={12} md={5} xl={5}> 
-              <Typography variant='h3'  > Your New Smile  <br />  Starts   Hear</Typography>
+              <Typography variant='h3'  > Your New Smile  abit khna <br />  Starts   Hear</Typography>
               <Typography variant="caption" color="slateblue" > Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quo delectus ex, corporis laudantium itaque qui magnam molestias quos minus dolores!</Typography>
               <Button variant="contained"  style={buttonColor}>Get Appoinment</Button>
                 </Grid>
