@@ -1,5 +1,6 @@
 import { Box, Button, Card, Grid, Paper, Typography } from '@mui/material';
 import React from 'react';
+import BookingModal from '../BookinModal/BookingModal';
 
 const Booking = ({booked}) => {
     const {id , name, time , price ,  space} = booked ;
@@ -8,6 +9,11 @@ const buttonColor = {
     background: "#19D3AE",
     color: 'white'
 }
+
+
+const [open, setOpen] = React.useState(false);
+const handleOpen = () => setOpen(true);
+const handleClose = () => setOpen(false);
     return (
         <Grid item xs={12} sm={6} md={4}>
              <Paper elevation={3} sx={{ py: 5 , textAlign:'center'}}>
@@ -23,8 +29,9 @@ const buttonColor = {
                     <Typography variant="caption" display="block" gutterBottom>
                         {space} SPACES AVAILABLE
                     </Typography>
-                    <Button  variant="contained" style={buttonColor}>BOOK APPOINTMENT</Button>
+                    <Button  variant="contained" style={buttonColor} onClick={handleOpen} >BOOK APPOINTMENT</Button>
                 </Paper>
+                <BookingModal handleOpen={handleOpen} handleClose={handleClose} open={open} name={name} price={price} space={space} time={time} />
              </Grid>
         
     );
