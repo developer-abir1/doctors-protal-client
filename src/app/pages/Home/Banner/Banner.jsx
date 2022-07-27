@@ -2,6 +2,9 @@ import React from 'react';
 import char from '../../../assets/images/chair.png'
 import bg from '../../../assets/images/bg.png' 
 import { Box, Button, Container, Grid, Typography } from '@mui/material';
+import {Link } from 'react-router-dom'
+
+
 const Banner = () => {
 
 
@@ -26,7 +29,7 @@ const verticalCenter = {
              <Box>
              <Typography variant='h3' sx={{fontWeight:500}}  > Your New Smile  <br />  Starts   Hear</Typography>
               <Typography variant="h6" color="gary" sx={{my:5 , fontSize:14 , fontWeight:300}} > Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quo delectus ex, corporis laudantium itaque qui magnam molestias quos minus dolores!</Typography>
-              <Button variant="contained"  style={buttonColor} >Get Appoinment</Button>
+           <Link to="/appoinment" style={{textDecoration:"none"}}>  <Button variant="contained"  style={buttonColor} >Get Appoinment</Button></Link> 
              </Box>
                 </Grid>
                 <Grid item xs={12} sm={12} md={7} xl={7} sx={{...verticalCenter , justifyContent:"center"}}> 

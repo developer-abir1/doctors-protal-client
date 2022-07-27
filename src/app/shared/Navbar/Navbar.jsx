@@ -6,7 +6,7 @@ import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import IconButton from '@mui/material/IconButton';
 import MenuIcon from '@mui/icons-material/Menu';
-import { Container, Slide, useScrollTrigger, } from '@mui/material';
+import { Container,  } from '@mui/material';
 import { Link } from "react-router-dom"
 
 const Navbar = ({bgNav , navText }) => {
@@ -21,11 +21,10 @@ const Navbar = ({bgNav , navText }) => {
        else{
         setScroll(false)
        }
-     })
-//   boxShadow: scroll ? ""
+     }) 
     return (
         <Box sx={{ flexGrow: 1 }}> 
-            <AppBar position="fixed" sx={{ background:scroll ? bgNav :'none' , color: navText , boxShadow:scroll ?"5px 5px 10px gary " :"none"   }}  >
+            <AppBar position="fixed" sx={{ background:scroll ? "#ffffffde" : bgNav  , color: navText , boxShadow:scroll ?"5px 5px 10px gary " :"none"   }}  >
                 <Container>
                     <Toolbar>
                         <IconButton

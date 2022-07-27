@@ -18,13 +18,7 @@ const Home = () => {
             <Banner/>
             <Services/>
             <AppoinmentBanner/>
-            <AppoinmentBanner/>
-            <AppoinmentBanner/>
-            <AppoinmentBanner/>
-            <AppoinmentBanner/>
-            <AppoinmentBanner/>
-            <AppoinmentBanner/>
-            <AppoinmentBanner/>
+            
         </Layout>
     );
 };
