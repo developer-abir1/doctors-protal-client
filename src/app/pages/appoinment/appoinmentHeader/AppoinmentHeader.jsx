@@ -14,7 +14,7 @@ const AppoinmentHeader = ({date , setDate}) => {
                     <Calander date={date} setDate={setDate}/>
                 </Grid>
                 <Grid item xs={12} sm={12} md={6} sx={{display:"flex" , justifyContent:"center" ,alignItems:"center" , height:400}}>
-                    <img width={400} src={char} alt="" srcset="" />
+                    <img width={400} src={char} alt="" />
                 </Grid>
 
             </Grid>

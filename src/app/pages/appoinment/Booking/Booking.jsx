@@ -2,7 +2,7 @@ import { Box, Button, Card, Grid, Paper, Typography } from '@mui/material';
 import React from 'react';
 import BookingModal from '../BookinModal/BookingModal';
 
-const Booking = ({booked}) => {
+const Booking = ({booked , date}) => {
     const {id , name, time , price ,  space} = booked ;
     
 const buttonColor = {
@@ -31,7 +31,7 @@ const handleClose = () => setOpen(false);
                     </Typography>
                     <Button  variant="contained" style={buttonColor} onClick={handleOpen} >BOOK APPOINTMENT</Button>
                 </Paper>
-                <BookingModal handleOpen={handleOpen} handleClose={handleClose} open={open} name={name} price={price} space={space} time={time} />
+                <BookingModal date={date} handleOpen={handleOpen} handleClose={handleClose} open={open} name={name} price={price} space={space} time={time} />
              </Grid>
         
     );
