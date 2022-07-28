@@ -3,7 +3,8 @@ import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
-import { TextField } from '@mui/material';
+import { FormControl, InputLabel, MenuItem, Select, TextField } from '@mui/material';
+import { Close } from '@mui/icons-material';
 
 const style = {
     position: 'absolute',
@@ -22,20 +23,25 @@ const bookingBtn = {
     background: "#22ebe1f3"
 }
 
-export default function BookingModal({ handleOpen, open, handleClose, name, price, space, time, date }) {
+export default function BookingModal({ booked, open, handleClose, date, treatment }) {
+
+    const { _id, name, slots } = treatment;
+    
+    const [time, setTime] = React.useState([]);
 
 
-
-    const handleSubmit =(e) =>{
+    const handleSubmit = (e) => {
         e.preventDefault()
-        console.log("click me") 
+        console.log(_id, name, time)
         handleClose()
-        
+
 
 
     }
- 
 
+    const handleChange = (event) => {
+        setTime(event.target.value);
+    };
 
     return (
         <div>
@@ -46,28 +52,46 @@ export default function BookingModal({ handleOpen, open, handleClose, name, pric
                 aria-labelledby="modal-modal-title"
                 aria-describedby="modal-modal-description"
             >
+
                 <Box sx={style} width={{ xs: 250 }}  >
+                    <Box sx={{ display: 'flex', justifyContent: "flex-end" }}>
+                        <Close onClick={handleClose} sx={{ backgroundColor: "#706d6d9a", width: 40, height: 40, borderRadius: 50, fontSize: "14px", cursor: "pointer", }} />
+                    </Box>
                     <Box >
                         <Box sx={{ my: 3 }}  >
 
-                            <Typography variant='h5' sx={{ textAlign: "center" }}>{name}</Typography>
+                            <Typography variant='h5' sx={{ textAlign: "center", color: "#2efaf0f5", textTransform: "capitalize" }}>{name}</Typography>
 
                         </Box>
                         <Box  >
                             <form onSubmit={handleSubmit} >
                                 <TextField
+
                                     disabled
                                     size='small'
-                                    sx={{ width: "95%", m: 1 }}
-                                    defaultValue={time}
-                                />
-                                <TextField
-
-                                    size='small'
-                                    sx={{ width: "95%", m: 1 }}
-                                    placeholder="Enter You Name"
+                                    sx={{ width: "95%", m: 1, background: "#dddddddc", borderRadius: "5px" }}
+                                    defaultValue={date.toDateString()}
                                 />
 
+                            
+
+                                    <Box sx={{ display:'flex' , justifyContent:'center' }} >
+                                        <FormControl  sx={{ width: "95%" }}>
+
+                                            <Select
+
+
+                                                value={time}
+
+                                                onChange={handleChange}
+
+                                            >
+                                                {slots.map(solt => (<MenuItem value={solt}>{solt}</MenuItem>))}
+
+                                            </Select>
+                                        </FormControl>
+                                    </Box>
+                              
                                 <TextField
 
                                     size='small'
