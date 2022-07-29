@@ -60,7 +60,7 @@ const AvailableAppoinments = ({ date   }) => {
         setTreatment(service)
     }
     useEffect(() => {
-        fetch('/services.json')
+        fetch('http://localhost:4500/services')
             .then(res => res.json())
             .then(data => setServices(data))
     }, [])

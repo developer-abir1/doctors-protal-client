@@ -1,13 +1,19 @@
 
-import { Routes, Route, Link } from "react-router-dom";
+import { Routes, Route } from "react-router-dom";
 import Home from "./app/pages/Home/Home/Home";
 import './App.css'
 import Appoinmnet from "./app/pages/appoinment/Appoinment/Appoinmnet";
+import Login from "./app/pages/login/login/Login";
+
+
+
+
 function App() {
   return (
     <Routes>
       <Route path="/" element={<Home />} />
       <Route path="/appoinment" element={<Appoinmnet />} />
+      <Route path="/login" element={<Login />} />
     </Routes>
   );
 }

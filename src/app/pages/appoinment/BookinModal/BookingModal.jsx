@@ -73,16 +73,20 @@ export default function BookingModal({ booked, open, handleClose, date, treatmen
                                     defaultValue={date.toDateString()}
                                 />
 
-                            
+ 
+
 
                                     <Box sx={{ display:'flex' , justifyContent:'center' }} >
                                         <FormControl  sx={{ width: "95%" }}>
+                                       
+                                        <InputLabel id="demo-simple-select-label">Set Time </InputLabel>
 
                                             <Select
-
-
-                                                value={time}
-
+                                                   labelId="demo-simple-select-label"
+                                                   id="demo-simple-select"
+                                                 label="Set Time  "
+  
+                                                value={time ? slots[0] :""} 
                                                 onChange={handleChange}
 
                                             >

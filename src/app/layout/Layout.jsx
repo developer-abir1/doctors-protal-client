@@ -3,13 +3,13 @@ import React from 'react';
 import Footer from '../shared/Footer/Footer';
 import Navbar from '../shared/Navbar/Navbar';
 
-const Layout = ({title , children  ,navText ,bgNav}) => {
+const Layout = ({title , children  ,navText ,bgNav ,scrollColor}) => {
     return (
         < >
            <Box sx={{display:"flex" , flexDirection:"column" , minHeight:"100vh" , justifyContent:'space-between'}}>
              <header>
                 <title>{title? title +" - Doctors Protal": "Doctors - Protal"}</title>
-                <Navbar navText={navText} bgNav={bgNav} />
+                <Navbar navText={navText} bgNav={bgNav}  scrollColor={scrollColor}/>
             </header>
          <Container>
             <main  >

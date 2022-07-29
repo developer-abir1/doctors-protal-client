@@ -9,7 +9,7 @@ import MenuIcon from '@mui/icons-material/Menu';
 import { Container,  } from '@mui/material';
 import { Link } from "react-router-dom"
 
-const Navbar = ({bgNav , navText }) => {
+const Navbar = ({bgNav , navText  }) => {
 
     const [scroll , setScroll] = React.useState(false)
 
@@ -36,16 +36,20 @@ const Navbar = ({bgNav , navText }) => {
                         >
                             <MenuIcon />
                         </IconButton>
-                        <Typography variant="h6" component="div" sx={{ flexGrow: 1, boxShadow:''}}>
+                    <Box  sx={{ flexGrow: 1, boxShadow:''}}>
+                    <Link to="/" style={{ textDecoration: "none", color: navText,  }}>   
+                        <Typography variant="h6" component="div">
                             News
                         </Typography>
+                        </Link>
+                    </Box>
                         <Box sx={{ display: { xs: 'none', sm: 'none', md: "block flex" } }}>
                             <Link to="/" style={{ textDecoration: "none", color: navText,  }}>     <Button variant='black'>Home</Button></Link>
                             <Link to="/appoinment" style={{ textDecoration: "none", color: navText,  }}>   <Button variant='black'>Appoinment</Button> </Link>
                             <Button variant='black'>Home</Button>
                             <Button variant='black'>Home</Button>
                         </Box>
-                        <Button color="inherit">Login</Button>
+                        <Link to="/login" style={{ textDecoration: "none", color: navText,  }}>     <Button color="inherit">Login</Button></Link>
                     </Toolbar>
                 </Container>
             </AppBar> 
