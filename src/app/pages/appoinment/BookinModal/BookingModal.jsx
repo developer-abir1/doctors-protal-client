@@ -90,7 +90,7 @@ export default function BookingModal({ booked, open, handleClose, date, treatmen
                                                 onChange={handleChange}
 
                                             >
-                                                {slots.map(solt => (<MenuItem value={solt}>{solt}</MenuItem>))}
+                                                {slots.map((solt, index) => (<MenuItem key={index} value={solt}>{solt}</MenuItem>))}
 
                                             </Select>
                                         </FormControl>
