@@ -4,6 +4,7 @@ import Home from "./app/pages/Home/Home/Home";
 import './App.css'
 import Appoinmnet from "./app/pages/appoinment/Appoinment/Appoinmnet";
 import Login from "./app/pages/login/login/Login";
+import Singup from "./app/pages/login/singup/Singup";
 
 
 
@@ -14,6 +15,7 @@ function App() {
       <Route path="/" element={<Home />} />
       <Route path="/appoinment" element={<Appoinmnet />} />
       <Route path="/login" element={<Login />} />
+      <Route path="/singup" element={<Singup />} />
     </Routes>
   );
 }

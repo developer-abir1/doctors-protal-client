@@ -24,7 +24,7 @@ const Navbar = ({bgNav , navText  }) => {
      }) 
     return (
         <Box sx={{ flexGrow: 1 }}> 
-            <AppBar position="fixed" sx={{ background:scroll ? "#ffffffde" : bgNav  , color: navText , boxShadow:scroll ?"5px 5px 10px gary " :"none"   }}  >
+            <AppBar position="fixed" sx={{ background:scroll ? "#F0F8FF" : bgNav  , color: navText , boxShadow:scroll ?"5px 5px 10px gary " :"none"   }}  >
                 <Container>
                     <Toolbar>
                         <IconButton

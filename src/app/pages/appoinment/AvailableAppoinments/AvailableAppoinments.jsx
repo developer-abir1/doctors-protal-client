@@ -18,7 +18,7 @@ const AvailableAppoinments = ({ date   }) => {
     useEffect(() => {
  
        
-        fetch('/services.JSON')
+        fetch('/services.json')
  
             .then(res => res.json())
             .then(data => setServices(data))

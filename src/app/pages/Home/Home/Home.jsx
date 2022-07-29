@@ -14,7 +14,7 @@ const Home = () => {
 
 
     return (
-        <Layout title="Home"  navText="black" bgNav="white" >
+        <Layout title="Home"  navText="black" bgNav="#F0F8FF" >
             <Banner/>
             <Services/>
             <AppoinmentBanner/>

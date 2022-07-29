@@ -8,7 +8,7 @@ const [date, setDate] = React.useState(new Date());
 
 
     return (
-        <Layout title="Apponment"  bgNav={'#ffffff'} navText="black">
+        <Layout title="Apponment"  bgNav={'#F0F8FF'} navText="black">
 
           <AppoinmentHeader date={date} setDate={setDate}/>
           <AvailableAppoinments date={date} setDate={setDate}/>
