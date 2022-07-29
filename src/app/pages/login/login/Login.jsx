@@ -1,4 +1,4 @@
-import { Box, Button, Card, Select, Typography } from '@mui/material';
+import { Box, Button, Card,   Typography } from '@mui/material';
 import React from 'react';
 import Layout from '../../../layout/Layout';
 import TextField from '@mui/joy/TextField';
@@ -7,7 +7,7 @@ import auth from '../../../../firebase.init';
 import { useForm } from "react-hook-form";
 const Login = () => {
 
-    const [signInWithGoogle, user, loading, error] = useSignInWithGoogle(auth);
+    const [signInWithGoogle, user,   ] = useSignInWithGoogle(auth);
 
     if (user)
     {
