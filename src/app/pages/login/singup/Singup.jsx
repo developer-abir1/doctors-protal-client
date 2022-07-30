@@ -2,7 +2,7 @@ import { Box, Button, Card, CircularProgress, Typography } from '@mui/material';
 import TextField from '@mui/joy/TextField';
 
 import React, { useState } from 'react';
-import { useCreateUserWithEmailAndPassword, useSignInWithGoogle } from 'react-firebase-hooks/auth';
+import { useCreateUserWithEmailAndPassword, useSignInWithGoogle, useUpdateProfile } from 'react-firebase-hooks/auth';
 import { useForm } from 'react-hook-form';
 import { Link } from 'react-router-dom';
 import auth from '../../../../firebase.init';
@@ -28,24 +28,25 @@ const formBtn = {
 
 const Singup = () => {
     const [signInWithGoogle, gUser, gLoading, gError,] = useSignInWithGoogle(auth);
-    const [createUserWithEmailAndPassword, user, loading, error,] = useCreateUserWithEmailAndPassword(auth);
-console.log(user)
+    const [createUserWithEmailAndPassword, user, loading, error, ] = useCreateUserWithEmailAndPassword(auth);
     const { register, handleSubmit, watch, formState: { errors } } = useForm();
-    const onSubmit = (data, e) => {
-        e.preventDefault()
-         
-        createUserWithEmailAndPassword(data.email, data.password , data.age)
+   
+    const [updateProfile, updating, uError] = useUpdateProfile(auth);
 
-    };
+    
+   
 
-    console.log(watch("example"));
+    
+   
+
+    let singInError;
 
 
     if (gUser)
     {
         console.log(gUser)
     }
-    if (loading || gLoading)
+    if (loading || gLoading || updating)
     {
 
         return <Layout navText="black" bgNav="#F0F8FF" title="Lodding Now" >
@@ -55,6 +56,18 @@ console.log(user)
         </Layout>
 
     }
+    if (error || gError || uError)
+    {
+        singInError = <span style={{ color: "red" }}>{error.message || gError.message || uError.message}</span>
+    }
+
+    const onSubmit = async (data, e) => {
+        e.preventDefault()
+
+        await createUserWithEmailAndPassword(data.email, data.password, data.age)
+        await updateProfile({ displayName: data.name, });
+       
+    };
 
     return (
         <Layout title="Home" navText="black" bgNav="#F0F8FF">
@@ -70,7 +83,7 @@ console.log(user)
                         <Box sx={{ display: 'flex', justifyContent: 'center' }}>
                             <Box width={400} sx={{ my: 3 }} >
                                 {/* This is name fild start */}
-                                <TextField name="name" type='text' sx={{ mb: 2 }} placeholder='Enter your name *' {...register("name", {
+                                <TextField name="name" type='name' sx={{ mb: 2 }} placeholder='Enter your name *' {...register("name", {
                                     required: { value: true, message: "Name is required *" },
 
 
@@ -106,57 +119,15 @@ console.log(user)
                                 {errors.password?.type === "minLength" && <Typography sx={{ fontSize: "12px", color: 'red', }}>{errors.password.message}</Typography>}
                                 {/* This is password  fild end */}
 
-                                {/* This is conform password  fild start */}
-                                <TextField placeholder='Enter Your conform password *'  {...register("conform", {
-                                    required: { value: true, message: "Password  is Must be required *" },
-                                    minLength: { value: 6, message: "Password length 6 chareterss" }
-
-                                })} sx={{ mb: 2 }} fullWidth label="Enter conform Password *" id="fullWidth" />
-                                {errors.conform?.type === "required" && <Typography variant='h6' sx={{ fontSize: "12px", color: 'red', }}>{errors.conform.message}</Typography>}
-                                {errors.conform?.type === "minLength" && <Typography sx={{ fontSize: "12px", color: 'red', }}>{errors.conform.message}</Typography>}
-                                {/* This is conform password  fild end */}
-
-
-                                {/* this is gender Feld start */}
-                                <Box style={{ textAlign: "left", }}>     <label htmlFor="gender">Gender</label></Box>
-                                <select id="gender" style={{ width: "100%", height: "10%", borderRadius: "8px" }} placeholder='Enter Your password *'  {...register("gender", {
-                                    required: { value: true, message: "Please select your gender required *" },
-
-
-                                })}   >
-                                    <option value="">Select Gender</option>
-                                    <option value="Male">Male</option>
-                                    <option value="Female">Female</option>
-                                    <option value="Other">Other</option>
-                                </select>
-                                {errors.gender?.type === "required" && <Typography variant='h6' sx={{ fontSize: "12px", color: 'red', }}>{errors.gender.message}</Typography>}
-
-                                {/* this is gender Feld start */}
-
-                                {/* This is age fild start */}
-                                <TextField placeholder='Enter Your age *'  {...register("age", {
-                                    required: { value: true, message: "Enter your age required *" },
-
-
-                                })} sx={{ my: 2 }} fullWidth label="Enter age *" id="fullWidth" />
-                                {errors.age?.type === "required" && <Typography variant='h6' sx={{ fontSize: "12px", color: 'red', }}>{errors.age.message}</Typography>}
-                                {/* this is age fild  end */}
-                           
-                                {/* This is age fild start */}
-                                <TextField placeholder='Enter Your Mobile Number *'  {...register("phone", {
-                                    required: { value: true, message: "Enter your Mobile phon number required *" },
-                                  
-
-
-                                })} sx={{ my: 2 , mb:4}} fullWidth label= " Enter Your Mobile Number*" id="fullWidth" />
-                                {errors.phone?.type === "required" && <Typography variant='h6' sx={{ fontSize: "12px", color: 'red', }}>{errors.phone.message}</Typography>}
-                                {/* this is age fild  end */}
-                            
+                             
+                          
+                                {singInError}  
+                               
                             </Box>
 
                         </Box>
                         <Button style={formBtn} type="submit" placeholder="Type in here…" size='sm' variant="contained" >Creact an Accaount</Button>
-
+                     
                     </form>
 
 

@@ -1,12 +1,13 @@
-import { Box, Button, Card, CircularProgress, Grid, InputLabel, Typography } from '@mui/material';
+import { Alert, Box, Button, Card, CircularProgress, Grid, InputLabel, Typography } from '@mui/material';
 import React, { useState } from 'react';
 import Layout from '../../../layout/Layout';
 import TextField from '@mui/joy/TextField';
-import { useSignInWithGoogle, useCreateUserWithEmailAndPassword } from 'react-firebase-hooks/auth';
+import { useSignInWithGoogle, useCreateUserWithEmailAndPassword, useSignInWithEmailAndPassword } from 'react-firebase-hooks/auth';
 import auth from '../../../../firebase.init';
 import { useForm } from "react-hook-form";
-import { Link } from 'react-router-dom';
-
+import { Link, useNavigate } from 'react-router-dom';  
+import swal from 'sweetalert';
+import Swal from 'sweetalert2';
 
 
 const buttonBg = {
@@ -24,18 +25,48 @@ const formBtn = {
 }
 
 
+
+const Toast = Swal.mixin({
+    zIndex:1,
+    toast: true,
+    position: 'bottom-end',
+    showConfirmButton: false,
+    timer: 3000,
+    timerProgressBar: true,
+    didOpen: (toast) => {
+      toast.addEventListener('mouseenter', Swal.stopTimer)
+      toast.addEventListener('mouseleave', Swal.resumeTimer)
+    }
+  })
+
 const Login = () => {
 
-    const [signInWithGoogle, gUser, gLoading, gError,] = useSignInWithGoogle(auth);
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
-    const [createUserWithEmailAndPassword, user, loading, error,] = useCreateUserWithEmailAndPassword(auth);
+    const [signInWithGoogle, gUser, gLoading, gError,] = useSignInWithGoogle(auth); 
+    const [signInWithEmailAndPassword, user, loading, error,] = useSignInWithEmailAndPassword(auth);
 
     const { register, handleSubmit, watch, formState: { errors } } = useForm();
+
+    const [success , setSuccess] = useState(false)
+
+
+    const naviget = useNavigate()
+
+
     const onSubmit = (data, e) => {
         e.preventDefault()
-        console.log(data)
-        createUserWithEmailAndPassword(data.email, data.password)
+        signInWithEmailAndPassword(data.email, data.password)
+        
+      if( user   ){
+       
+       
+        Toast.fire({
+            icon: 'success',
+            title: 'Signed in successfully'
+          })
+      
+      }
+      
+
 
     };
 
@@ -58,6 +89,13 @@ const Login = () => {
     }
 
 
+      let signInError;
+
+    if (error || gError)
+    {
+        signInError = <p style={{color:"red"  }} > <small>{error?.message || gError?.message}</small></p>
+    }
+
     return (
         <Layout navText="black" bgNav="#F0F8FF" title="Login" >
 
@@ -79,7 +117,7 @@ const Login = () => {
 
                                 })}
                                     fullWidth
-                                    
+
                                     label="Enter Email Address "
                                     id="fullWidth"
                                 />
@@ -97,9 +135,13 @@ const Login = () => {
                             </Box>
 
                         </Box>
-                        <Typography variant="h6" sx={{ textAlign: "left", my: 3, px: 8, color: 'blue' , fontWeight:400 , fontSize:18 }}>Forget password? </Typography>
+                        <Typography variant="h6" sx={{ textAlign: "left", my: 3, px: 8, color: 'blue', fontWeight: 400, fontSize: 18 }}>Forget password? </Typography>
                         <Button style={formBtn} type="submit" placeholder="Type in here…" size='sm' variant="contained" >Login</Button>
-
+                        {signInError}
+                        {success && <Alert severity="success" color="info">
+  This is a success alert — check it out!
+</Alert>
+}
                     </form>
 
 
