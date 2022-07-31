@@ -16,9 +16,7 @@ const Navbar = ({bgNav , navText  }) => {
 
     const [scroll , setScroll] = React.useState(false)
     const [user, loading, error] = useAuthState(auth );
-
-
-
+    
 
     const logout = () => {
         signOut(auth);

@@ -4,9 +4,11 @@ import TextField from '@mui/joy/TextField';
 import React, { useState } from 'react';
 import { useCreateUserWithEmailAndPassword, useSignInWithGoogle, useUpdateProfile } from 'react-firebase-hooks/auth';
 import { useForm } from 'react-hook-form';
-import { Link } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import auth from '../../../../firebase.init';
 import Layout from '../../../layout/Layout';
+import { MoonLoader } from 'react-spinners';
+import Looding from '../../../shared/lodding/Looding';
 
 
 
@@ -28,32 +30,34 @@ const formBtn = {
 
 const Singup = () => {
     const [signInWithGoogle, gUser, gLoading, gError,] = useSignInWithGoogle(auth);
-    const [createUserWithEmailAndPassword, user, loading, error, ] = useCreateUserWithEmailAndPassword(auth);
-    const { register, handleSubmit, watch, formState: { errors } } = useForm();
-   
+    const [createUserWithEmailAndPassword, user, loading, error,] = useCreateUserWithEmailAndPassword(auth);
+    const { register, handleSubmit,   formState: { errors } } = useForm();
+
     const [updateProfile, updating, uError] = useUpdateProfile(auth);
 
-    
-   
 
-    
-   
+
+
+
+
+    const navigate = useNavigate() ;
+    const location = useLocation()
+    let from = location.state?.from?.pathname || "/";
+
+
+
 
     let singInError;
 
 
-    if (gUser)
+    if (gUser || user)
     {
-        console.log(gUser)
+        navigate(from, { replace: true });
     }
-    if (loading || gLoading || updating)
+    if (  loading || gLoading || updating)
     {
 
-        return <Layout navText="black" bgNav="#F0F8FF" title="Lodding Now" >
-            <Box sx={{ textAlign: "center" }}>
-                <CircularProgress disableShrink />;
-            </Box>
-        </Layout>
+        return <Looding /> 
 
     }
     if (error || gError || uError)
@@ -66,13 +70,13 @@ const Singup = () => {
 
         await createUserWithEmailAndPassword(data.email, data.password, data.age)
         await updateProfile({ displayName: data.name, });
-       
+
     };
 
     return (
         <Layout title="Home" navText="black" bgNav="#F0F8FF">
             <Box sx={{ display: 'flex', justifyContent: "center", my: 5, py: 5 }}>
-                <Card style={{ width: 700, height: 1000, textAlign: 'center' }}>
+                <Card style={{ width: 700, height: 700, textAlign: 'center' }}>
 
                     <Typography variant='h5' sx={{ mt: 2 }}>Create an account</Typography>
 
@@ -119,15 +123,15 @@ const Singup = () => {
                                 {errors.password?.type === "minLength" && <Typography sx={{ fontSize: "12px", color: 'red', }}>{errors.password.message}</Typography>}
                                 {/* This is password  fild end */}
 
-                             
-                          
-                                {singInError}  
-                               
+
+
+                                {singInError}
+
                             </Box>
 
                         </Box>
                         <Button style={formBtn} type="submit" placeholder="Type in here…" size='sm' variant="contained" >Creact an Accaount</Button>
-                     
+
                     </form>
 
 

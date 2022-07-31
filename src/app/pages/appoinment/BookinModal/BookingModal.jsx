@@ -5,6 +5,9 @@ import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
 import { FormControl, InputLabel, MenuItem, Select, TextField } from '@mui/material';
 import { Close } from '@mui/icons-material';
+import { useAuthState } from 'react-firebase-hooks/auth';
+import auth from '../../../../firebase.init';
+import { format } from 'date-fns';
 
 const style = {
     position: 'absolute',
@@ -26,13 +29,31 @@ const bookingBtn = {
 export default function BookingModal({ booked, open, handleClose, date, treatment }) {
 
     const { _id, name, slots } = treatment;
-    
-    const [time, setTime] = React.useState([]);
+
+    const [slot, setSlots] = React.useState([]);
+
+    const [user, loading, error] = useAuthState(auth)
 
 
-    const handleSubmit = (e) => {
-        e.preventDefault()
-        console.log(_id, name, time)
+    const formateDate = format(date, "PP")
+
+    const handleSubmit = (event) => {
+        event.preventDefault()
+        const booking = {
+            treatmentId: _id,
+            treatment: name,
+            date: formateDate,
+            parent: user?.email,
+            parentName: user?.displayName,
+            slot,
+            phone: event.target.phone.value
+        }
+        console.log(booking)
+
+
+
+
+
         handleClose()
 
 
@@ -40,7 +61,7 @@ export default function BookingModal({ booked, open, handleClose, date, treatmen
     }
 
     const handleChange = (event) => {
-        setTime(event.target.value);
+        setSlots(event.target.value);
     };
 
     return (
@@ -70,50 +91,54 @@ export default function BookingModal({ booked, open, handleClose, date, treatmen
                                     disabled
                                     size='small'
                                     sx={{ width: "95%", m: 1, background: "#dddddddc", borderRadius: "5px" }}
-                                    defaultValue={date.toDateString()}
+                                    defaultValue={formateDate}
                                 />
 
- 
 
 
-                                    <Box sx={{ display:'flex' , justifyContent:'center' }} >
-                                        <FormControl  sx={{ width: "95%" }}>
-                                       
+
+                                <Box sx={{ display: 'flex', justifyContent: 'center' }} >
+                                    <FormControl sx={{ width: "95%" }}>
+
                                         <InputLabel id="demo-simple-select-label">Set Time </InputLabel>
 
-                                            <Select
-                                                   labelId="demo-simple-select-label"
-                                                   id="demo-simple-select"
-                                                 label="Set Time  "
-  
-                                                value={time ? slots[0] :""} 
-                                                onChange={handleChange}
+                                        <Select
+                                            labelId="demo-simple-select-label"
+                                            id="demo-simple-select"
+                                            label="Set Time  "
 
-                                            >
-                                                {slots.map((solt, index) => (<MenuItem key={index} value={solt}>{solt}</MenuItem>))}
+                                            value={slot}
+                                            onChange={handleChange}
 
-                                            </Select>
-                                        </FormControl>
-                                    </Box>
-                              
+                                        >
+                                            {slots.map((solt, index) => (<MenuItem key={index} value={solt} >{solt}</MenuItem>))}
+
+                                        </Select>
+                                    </FormControl>
+                                </Box>
+                                <TextField
+                                    disabled
+
+                                    size='small'
+                                    sx={{ width: "95%", m: 1, background: "#dddddddc" }}
+                                    defaultValue={user?.displayName}
+                                />
+
                                 <TextField
 
+                                    defaultValue={user?.email}
                                     size='small'
                                     sx={{ width: "95%", m: 1 }}
                                     placeholder="Enter You Email"
                                 />
                                 <TextField
+                                    name="phone"
                                     type="number"
                                     size='small'
                                     sx={{ width: "95%", m: 1 }}
                                     placeholder="Enter You Phone Number"
                                 />
-                                <TextField
-                                    disabled
-                                    size='small'
-                                    sx={{ width: "95%", m: 1 }}
-                                    defaultValue={date.toDateString()}
-                                />
+
                                 <Button type="submit" variant="contained" style={bookingBtn} sx={{ mt: 2, width: "100%" }}>Booked</Button>
                             </form>
 

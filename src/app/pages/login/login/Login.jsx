@@ -1,13 +1,13 @@
-import { Alert, Box, Button, Card, CircularProgress, Grid, InputLabel, Typography } from '@mui/material';
-import React, { useState } from 'react';
+import { Box, Button, Card, Typography } from '@mui/material';
+import React, { useEffect } from 'react';
 import Layout from '../../../layout/Layout';
 import TextField from '@mui/joy/TextField';
 import { useSignInWithGoogle, useCreateUserWithEmailAndPassword, useSignInWithEmailAndPassword } from 'react-firebase-hooks/auth';
 import auth from '../../../../firebase.init';
 import { useForm } from "react-hook-form";
-import { Link, useNavigate } from 'react-router-dom';  
-import swal from 'sweetalert';
-import Swal from 'sweetalert2';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { ClimbingBoxLoader, MoonLoader } from 'react-spinners';
+import Looding from '../../../shared/lodding/Looding';
 
 
 const buttonBg = {
@@ -24,76 +24,53 @@ const formBtn = {
     color: 'whitesmoke'
 }
 
-
-
-const Toast = Swal.mixin({
-    zIndex:1,
-    toast: true,
-    position: 'bottom-end',
-    showConfirmButton: false,
-    timer: 3000,
-    timerProgressBar: true,
-    didOpen: (toast) => {
-      toast.addEventListener('mouseenter', Swal.stopTimer)
-      toast.addEventListener('mouseleave', Swal.resumeTimer)
-    }
-  })
-
 const Login = () => {
 
-    const [signInWithGoogle, gUser, gLoading, gError,] = useSignInWithGoogle(auth); 
+    const [signInWithGoogle, gUser, gLoading, gError,] = useSignInWithGoogle(auth);
     const [signInWithEmailAndPassword, user, loading, error,] = useSignInWithEmailAndPassword(auth);
 
-    const { register, handleSubmit, watch, formState: { errors } } = useForm();
-
-    const [success , setSuccess] = useState(false)
+    const { register, handleSubmit,  formState: { errors } } = useForm();
 
 
-    const naviget = useNavigate()
+
+
+     const navigate = useNavigate() ;
+     const location = useLocation()
+     let from = location.state?.from?.pathname || "/";
+
+
 
 
     const onSubmit = (data, e) => {
         e.preventDefault()
-        signInWithEmailAndPassword(data.email, data.password)
-        
-      if( user   ){
+        signInWithEmailAndPassword(data.email, data.password);
        
-       
-        Toast.fire({
-            icon: 'success',
-            title: 'Signed in successfully'
-          })
-      
-      }
-      
-
-
+  
     };
 
-    console.log(watch("example"));
+
+  useEffect(() => {
+    
+   if(user || gUser){
+    navigate(from, { replace: true });
+   } 
+
+  }, [user, gUser , from , navigate])
 
 
-    if (gUser)
-    {
-        console.log(gUser)
-    }
     if (loading || gLoading)
     {
 
-        return <Layout navText="black" bgNav="#F0F8FF" title="Lodding Now" >
-            <Box sx={{ textAlign: "center" }}>
-                <CircularProgress disableShrink />;
-            </Box>
-        </Layout>
+        return  <Looding/>
 
     }
 
 
-      let signInError;
+    let signInError;
 
     if (error || gError)
     {
-        signInError = <p style={{color:"red"  }} > <small>{error?.message || gError?.message}</small></p>
+        signInError = <p style={{ color: "red" }} > <small>{error?.message || gError?.message}</small></p>
     }
 
     return (
@@ -138,10 +115,7 @@ const Login = () => {
                         <Typography variant="h6" sx={{ textAlign: "left", my: 3, px: 8, color: 'blue', fontWeight: 400, fontSize: 18 }}>Forget password? </Typography>
                         <Button style={formBtn} type="submit" placeholder="Type in here…" size='sm' variant="contained" >Login</Button>
                         {signInError}
-                        {success && <Alert severity="success" color="info">
-  This is a success alert — check it out!
-</Alert>
-}
+
                     </form>
 
 
