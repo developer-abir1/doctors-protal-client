@@ -1,14 +1,14 @@
 import React from 'react';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { Navigate, useLocation } from 'react-router-dom';
-import auth from '../../../firebase.init';
-import Looding from '../../shared/lodding/Looding';
+import auth from '../../../firebase.init'; 
+import Loading from '../../shared/loding/Loading';
 
 const RequerAuth = ({children}) => {
-  const [user , loading  , error] = useAuthState(auth) 
+  const [user , loading   ] = useAuthState(auth) 
   let location = useLocation();
 if(loading){
-    return <Looding/>
+    return <Loading/>
 }
   if (!user) {
     // Redirect them to the /login page, but save the current location they were

@@ -1,7 +1,5 @@
-import React from 'react';
-import { experimentalStyled as styled } from '@mui/material/styles';
-import Box from '@mui/material/Box';
-import Paper from '@mui/material/Paper';
+import React from 'react'; 
+import Box from '@mui/material/Box'; 
 import Grid from '@mui/material/Grid';
 import Service from '../service/Service';
 import fluoride from '../../../assets/images/fluoride.png';

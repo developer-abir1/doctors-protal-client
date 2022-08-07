@@ -4,21 +4,19 @@ import AppoinmentBanner from '../AppoinmentBanner/AppoinmentBanner';
 import Banner from '../Banner/Banner';
 import Services from '../Services/Services';
 
+
 const Home = () => {
    
-    
 
-    const bgColor ={
-        background:  "#37F7"
-    }
 
+   
 
     return (
         <Layout title="Home"  navText="black" bgNav="#F0F8FF" >
             <Banner/>
             <Services/>
             <AppoinmentBanner/>
-            
+           
         </Layout>
     );
 };

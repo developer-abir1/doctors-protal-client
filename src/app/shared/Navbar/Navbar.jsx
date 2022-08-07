@@ -10,16 +10,17 @@ import { Container,  } from '@mui/material';
 import { Link } from "react-router-dom"
 import { useAuthState } from 'react-firebase-hooks/auth';
 import auth from '../../../firebase.init';
-import { signOut } from 'firebase/auth';
-
+import { signOut } from 'firebase/auth';  
 const Navbar = ({bgNav , navText  }) => {
 
     const [scroll , setScroll] = React.useState(false)
-    const [user, loading, error] = useAuthState(auth );
+    const [user ] = useAuthState(auth );
     
-
+     
+    
     const logout = () => {
-        signOut(auth);
+        signOut(auth)
+        localStorage.removeItem('accessToken')
       };
     window.addEventListener("scroll" ,() =>{
        const scrolled = window.scrollY;
@@ -30,9 +31,12 @@ const Navbar = ({bgNav , navText  }) => {
         setScroll(false)
        }
      }) 
+
+
+
     return (
         <Box sx={{ flexGrow: 1 }}> 
-            <AppBar position="fixed" sx={{ background:scroll ? "#F0F8FF" : bgNav  , color: navText , boxShadow:scroll ?"5px 5px 10px gary " :"none"   }}  >
+            <AppBar position="fixed" sx={{ background:scroll ? "#f0f8ffe5" : bgNav  , color: navText , boxShadow:scroll ?"5px 5px 10px gary " :"none"   }}  >
                 <Container>
                     <Toolbar>
                         <IconButton
@@ -54,8 +58,9 @@ const Navbar = ({bgNav , navText  }) => {
                         <Box sx={{ display: { xs: 'none', sm: 'none', md: "block flex" } }}>
                             <Link to="/" style={{ textDecoration: "none", color: navText,  }}>     <Button variant='black'>Home</Button></Link>
                             <Link to="/appoinment" style={{ textDecoration: "none", color: navText,  }}>   <Button variant='black'>Appoinment</Button> </Link>
-                            <Button variant='black'>Home</Button>
-                           {user?.email && <Button variant='black' sx={{color:"#00A187"}}> {user?.displayName}</Button>}
+                          {user &&  <Link to="/dashboard" style={{ textDecoration: "none", color: navText,  }}>   <Button variant='black'>Dashboard</Button> </Link>}
+                            
+                           {user && <Button key={"45asfaf"}  variant='black' sx={{color:"#00A187"}}> {user?.displayName}</Button>}
                         </Box>
             {       user?.email?    <Button onClick={logout} color="inherit">Logout</Button> :   <Link to="/login" style={{ textDecoration: "none", color: navText,  }}>     <Button color="inherit">Login</Button></Link>}
                     </Toolbar>

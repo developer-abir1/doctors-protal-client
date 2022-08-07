@@ -1,14 +1,13 @@
-import { Box, Button, Card, CircularProgress, Typography } from '@mui/material';
+import { Box, Button, Card,  Typography } from '@mui/material';
 import TextField from '@mui/joy/TextField';
-
-import React, { useState } from 'react';
+ 
 import { useCreateUserWithEmailAndPassword, useSignInWithGoogle, useUpdateProfile } from 'react-firebase-hooks/auth';
 import { useForm } from 'react-hook-form';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import auth from '../../../../firebase.init';
-import Layout from '../../../layout/Layout';
-import { MoonLoader } from 'react-spinners';
-import Looding from '../../../shared/lodding/Looding';
+import Layout from '../../../layout/Layout';  
+import useToken from '../../../hooks/useToken'; 
+import Loading from '../../../shared/loding/Loading';
 
 
 
@@ -28,7 +27,7 @@ const formBtn = {
     color: 'whitesmoke'
 }
 
-const Singup = () => {
+const SingUp = () => {
     const [signInWithGoogle, gUser, gLoading, gError,] = useSignInWithGoogle(auth);
     const [createUserWithEmailAndPassword, user, loading, error,] = useCreateUserWithEmailAndPassword(auth);
     const { register, handleSubmit,   formState: { errors } } = useForm();
@@ -36,28 +35,26 @@ const Singup = () => {
     const [updateProfile, updating, uError] = useUpdateProfile(auth);
 
 
-
+   const [token ] = useToken(user || gUser) 
 
 
 
     const navigate = useNavigate() ;
     const location = useLocation()
     let from = location.state?.from?.pathname || "/";
-
-
-
+ 
 
     let singInError;
 
 
-    if (gUser || user)
+    if ( token)
     {
         navigate(from, { replace: true });
     }
     if (  loading || gLoading || updating)
     {
 
-        return <Looding /> 
+        return <Loading /> 
 
     }
     if (error || gError || uError)
@@ -151,4 +148,4 @@ const Singup = () => {
     );
 };
 
-export default Singup;
+export default SingUp;

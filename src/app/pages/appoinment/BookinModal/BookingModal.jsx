@@ -8,6 +8,11 @@ import { Close } from '@mui/icons-material';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import auth from '../../../../firebase.init';
 import { format } from 'date-fns';
+import axios from 'axios';
+
+
+import { toast } from 'react-toastify'; 
+
 
 const style = {
     position: 'absolute',
@@ -26,35 +31,72 @@ const bookingBtn = {
     background: "#22ebe1f3"
 }
 
-export default function BookingModal({ booked, open, handleClose, date, treatment }) {
+
+ 
+
+
+export default function BookingModal({refetch , open, handleClose, date, treatment, setTreatment }) {
 
     const { _id, name, slots } = treatment;
 
     const [slot, setSlots] = React.useState([]);
 
     const [user, loading, error] = useAuthState(auth)
+    
+    
 
 
-    const formateDate = format(date, "PP")
 
+
+
+
+
+
+    const formateDate = format(date,"PP");
+
+   
     const handleSubmit = (event) => {
         event.preventDefault()
         const booking = {
             treatmentId: _id,
             treatment: name,
             date: formateDate,
-            parent: user?.email,
-            parentName: user?.displayName,
+            patient: user.email,
+            patientName: user.displayName,
             slot,
             phone: event.target.phone.value
         }
-        console.log(booking)
+
+        axios({
+            method: 'post',
+            url: 'http://localhost:4500/booking',
+            data: { ...booking },
+
+
+        }) 
+         .then(res => {
+               
+                if (res.data.success)
+                {
+
+                    toast.success(`  Appoinment is set ${ date} at ${ slot}` ) 
+                 
+
+                    
+                }
+                else
+                {
+                   toast.error(`Alrady have a Appoinment is set ${ res.data.booking.date} at ${ res.data.booking.slot}`) 
+                     
+                    
+                }
+                refetch()
+                setTreatment(null)
+
+            })
 
 
 
-
-
-        handleClose()
 
 
 
@@ -63,6 +105,7 @@ export default function BookingModal({ booked, open, handleClose, date, treatmen
     const handleChange = (event) => {
         setSlots(event.target.value);
     };
+
 
     return (
         <div>
@@ -74,7 +117,7 @@ export default function BookingModal({ booked, open, handleClose, date, treatmen
                 aria-describedby="modal-modal-description"
             >
 
-                <Box sx={style} width={{ xs: 250 }}  >
+                <Box sx={style} width={{ xs: 250, }}  >
                     <Box sx={{ display: 'flex', justifyContent: "flex-end" }}>
                         <Close onClick={handleClose} sx={{ backgroundColor: "#706d6d9a", width: 40, height: 40, borderRadius: 50, fontSize: "14px", cursor: "pointer", }} />
                     </Box>
@@ -106,7 +149,7 @@ export default function BookingModal({ booked, open, handleClose, date, treatmen
                                             labelId="demo-simple-select-label"
                                             id="demo-simple-select"
                                             label="Set Time  "
-
+                                            required
                                             value={slot}
                                             onChange={handleChange}
 
@@ -132,6 +175,7 @@ export default function BookingModal({ booked, open, handleClose, date, treatmen
                                     placeholder="Enter You Email"
                                 />
                                 <TextField
+                                     
                                     name="phone"
                                     type="number"
                                     size='small'
@@ -141,12 +185,13 @@ export default function BookingModal({ booked, open, handleClose, date, treatmen
 
                                 <Button type="submit" variant="contained" style={bookingBtn} sx={{ mt: 2, width: "100%" }}>Booked</Button>
                             </form>
-
-
+                          
                         </Box>
                     </Box>
                 </Box>
+
             </Modal>
+            
         </div>
     );
 }

@@ -1,9 +1,7 @@
 import { Box, Button, Container, Grid, Typography } from '@mui/material';
 import React from 'react';
 import doctor from '../../../assets/images/doctor.png';
-import bg from '../../../assets/images/appointment.png';
-import { Padding } from '@mui/icons-material';
-
+import bg from '../../../assets/images/appointment.png'; 
 
 const appointmentBg = {
     background: `url(${bg})`,
@@ -16,6 +14,8 @@ const buttonColor = {
     color: 'white'
 }
 
+ 
+
 const AppoinmentBanner = () => {
     return (
         <Container style={appointmentBg} sx={{ flexGrow: 1 }}>
@@ -26,15 +26,16 @@ const AppoinmentBanner = () => {
                 </Grid>
                 <Grid item xs={12} padding={{ xs: "10px", md: "15px" }}   md={6} sx={{  display: "flex", flexDirection: "column", justifyContent: "flex-start", alignItems: "center", textAlign: 'left' }} >
                     <Box>
+                 
+                  
                         <Typography variant='h6' sx={{ color: "#0FCFEC" }} component="div"> Appointment</Typography>
                         <Typography sx={{ fontWeight: "bold", color: "white", my: 2, fontSize: { xs: "24px", sm: "40px", md: "50px" } }} variant='h3' component="div"> Make an appointment Today</Typography>
                         <Box sx={{ my: 2 }}>                        <Typography variant="caption" style={{ color: 'lightGray', }} component="div"> Consectetur adipisicing elit. Quidem provident mollitia quod incidunt repellendus aut molestiae quam modi e </Typography>
                         </Box>
                         <Button variant="contained" style={buttonColor}   >Laren More</Button>
                     </Box>
-
-
-                </Grid>
+                                
+                      </Grid>
             </Grid>
         </Container>
     );

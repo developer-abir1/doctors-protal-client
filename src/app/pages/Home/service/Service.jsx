@@ -3,10 +3,13 @@ import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent'; 
 import Typography from '@mui/material/Typography';
 
-import { CardMedia, Grid } from '@mui/material';
+import { CardMedia, Grid } from '@mui/material'; 
+
+
 const Service = ({ service }) => {
-    const {name , _id , img} = service
-  
+    const {name ,  img} = service
+   
+
     return (
         <Grid item xs={12} sm={12} md={4} key={service._id}>
             <Card className='serviceCard' sx={{ p:2, minWidth: 275  , textAlign:'center' , boxShadow:"0" ,  }}>
@@ -29,6 +32,7 @@ const Service = ({ service }) => {
                 </CardContent>
               
             </Card>
+            
         </Grid>
     );
 };

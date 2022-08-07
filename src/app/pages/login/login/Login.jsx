@@ -1,13 +1,13 @@
 import { Box, Button, Card, Typography } from '@mui/material';
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import Layout from '../../../layout/Layout';
 import TextField from '@mui/joy/TextField';
-import { useSignInWithGoogle, useCreateUserWithEmailAndPassword, useSignInWithEmailAndPassword } from 'react-firebase-hooks/auth';
+import { useSignInWithGoogle, useSignInWithEmailAndPassword, useSendPasswordResetEmail } from 'react-firebase-hooks/auth';
 import auth from '../../../../firebase.init';
 import { useForm } from "react-hook-form";
-import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { ClimbingBoxLoader, MoonLoader } from 'react-spinners';
-import Looding from '../../../shared/lodding/Looding';
+import { Link, useLocation, useNavigate } from 'react-router-dom'; 
+import useToken from '../../../hooks/useToken';
+import Loading from '../../../shared/loding/Loading';
 
 
 const buttonBg = {
@@ -28,11 +28,12 @@ const Login = () => {
 
     const [signInWithGoogle, gUser, gLoading, gError,] = useSignInWithGoogle(auth);
     const [signInWithEmailAndPassword, user, loading, error,] = useSignInWithEmailAndPassword(auth);
-
     const { register, handleSubmit,  formState: { errors } } = useForm();
+    const [sendPasswordResetEmail, sending, ] = useSendPasswordResetEmail( auth  );
+    const [email, setEmail] = useState(''); 
+ 
 
-
-
+const [token] = useToken(user || gUser)
 
      const navigate = useNavigate() ;
      const location = useLocation()
@@ -41,27 +42,30 @@ const Login = () => {
 
 
 
-    const onSubmit = (data, e) => {
+    const onSubmit =  (data, e) => {
         e.preventDefault()
-        signInWithEmailAndPassword(data.email, data.password);
+       signInWithEmailAndPassword(data.email, data.password);
+        sendPasswordResetEmail(data.email)
        
   
     };
 
 
   useEffect(() => {
+
+ 
     
-   if(user || gUser){
+   if(token){
     navigate(from, { replace: true });
    } 
 
-  }, [user, gUser , from , navigate])
+  }, [token ,from , navigate])
 
 
-    if (loading || gLoading)
+    if (loading || gLoading || sending) 
     {
 
-        return  <Looding/>
+        return  <Loading/>
 
     }
 
@@ -94,7 +98,7 @@ const Login = () => {
 
                                 })}
                                     fullWidth
-
+                          onBlur={(e) => setEmail(e.target.value)}
                                     label="Enter Email Address "
                                     id="fullWidth"
                                 />
@@ -112,7 +116,7 @@ const Login = () => {
                             </Box>
 
                         </Box>
-                        <Typography variant="h6" sx={{ textAlign: "left", my: 3, px: 8, color: 'blue', fontWeight: 400, fontSize: 18 }}>Forget password? </Typography>
+                        <Button onClick={ async() => await sendPasswordResetEmail(email)} variant="h6" sx={{ textAlign: "left", my: 3, px: 8, color: 'blue', fontWeight: 400, fontSize: 18 }}>Forget password? </Button>
                         <Button style={formBtn} type="submit" placeholder="Type in here…" size='sm' variant="contained" >Login</Button>
                         {signInError}
 
