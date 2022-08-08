@@ -69,7 +69,7 @@ export default function BookingModal({refetch , open, handleClose, date, treatme
 
         axios({
             method: 'post',
-            url: 'http://localhost:4500/booking',
+            url: 'https://glacial-headland-03252.herokuapp.com/booking',
             data: { ...booking },
 
 

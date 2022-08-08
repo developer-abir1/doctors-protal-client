@@ -24,7 +24,7 @@ const AvailableAppoinments = ({ date   }) => {
     }
  
  const {data:services , isLodding , refetch} = 
-      useQuery(['available' , formentDate] , () => fetch(`http://localhost:4500/available?date=${formentDate}`)
+      useQuery(['available' , formentDate] , () => fetch(`https://glacial-headland-03252.herokuapp.com/available?date=${formentDate}`)
  
          .then(res => res.json()))
        

@@ -10,7 +10,7 @@ const UserRow = ({row , index}) => {
     const {email , role} = row
     
 const handleMakeAdmin =()=>{
-    const url = `http://localhost:4500/user/admin/${email}`;
+    const url = `https://glacial-headland-03252.herokuapp.com/user/admin/${email}`;
     fetch(url , {
         method:"PUT",
         headers:{

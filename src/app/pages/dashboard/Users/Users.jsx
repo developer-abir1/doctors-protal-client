@@ -37,7 +37,7 @@ export default function Users() {
   const [users, setUsers] = React.useState([])
   React.useEffect(() => {
 
-    fetch(`http://localhost:4500/user` ,{
+    fetch(`https://glacial-headland-03252.herokuapp.com/user` ,{
       method:"GET",
       headers:{
         authorization: `Bearer ${localStorage.getItem("accessToken")}`

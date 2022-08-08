@@ -48,7 +48,7 @@ const Mybooking = () => {
      useEffect(() => {
         
             if(user){
-              fetch(`http://localhost:4500/booking?patient=${user?.email}` ,{
+              fetch(`https://glacial-headland-03252.herokuapp.com/booking?patient=${user?.email}` ,{
               method:"GET",
               headers: {
                 'authorization' :`Bearer ${localStorage.getItem("accessToken")}`
