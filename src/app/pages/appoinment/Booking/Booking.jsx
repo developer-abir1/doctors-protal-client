@@ -1,8 +1,5 @@
 import {   Button,  Grid, Paper, Typography } from '@mui/material';
 import React from 'react'; 
-import { ToastContainer } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
-
 const Booking = ({booked ,  handleModalOpen } ) => {
     const {  name,  slots  } = booked ;
     
@@ -32,7 +29,7 @@ const buttonColor = {
                     </Typography>
                     <Button  onClick={() => handleModalOpen(booked) } disabled={slots.length === 0}   variant="contained" style={slots.length  === 0 ?  {background:""} : buttonColor}   >BOOK APPOINTMENT</Button>
                 </Paper>
-                 <ToastContainer/>
+               
              </Grid>
         
     );

@@ -11,10 +11,19 @@ import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import {   NavLink, Outlet } from 'react-router-dom';  
 import { List } from '@mui/material';
+import useAdmin from '../../../hooks/useAdmin';
+import { useAuthState } from 'react-firebase-hooks/auth';
+import auth from '../../../../firebase.init';
 const drawerWidth = 240;
 
  
 export default function Dashboard(props ) {
+
+  const  [user] = useAuthState(auth)
+
+   const [admin] = useAdmin(user)
+
+
   const { window } = props;
   const [mobileOpen, setMobileOpen] = React.useState(false);
 
@@ -51,7 +60,7 @@ const defaultStyle ={
      <NavLink  style={(navinfo) => navinfo.isActive ? activeStyle: defaultStyle}      to="/dashboard">     <ListItem     >Dashboard</ListItem> </NavLink>
      
         <NavLink  style={(navinfo) => navinfo.isActive ? activeStyle: defaultStyle}   to="/dashboard/mybooking"><ListItem className='navLink'     variant='contained' >MY Booking</ListItem></NavLink>
-        <NavLink  style={(navinfo) => navinfo.isActive ? activeStyle: defaultStyle}   to="/dashboard/users"><ListItem className='navLink'     variant='contained' >All  Users  </ListItem></NavLink>
+    { admin && <NavLink  style={(navinfo) => navinfo.isActive ? activeStyle: defaultStyle}   to="/dashboard/users"><ListItem className='navLink'     variant='contained' >All  Users  </ListItem></NavLink> }
         <NavLink  style={(navinfo) => navinfo.isActive ? activeStyle: defaultStyle}   to="/dashboard/review">     <ListItem     >Review</ListItem> </NavLink>
         
          
